@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/swiper.min.js"></script>
+    <script src="js/dyselect.js"></script>
+    <script type="text/javascript">
+        function saveMsg() {
+            var msg = $('#text').val();
+            msg = encodeURIComponent(msg);
+            console.log(msg);
+            $.ajax({
+                url: "save",
+                data: {
+                    msg: msg
+                },
+                dataType: 'JSON',
+                success: function (result) {
+                    console.log(msg);
+                }
+            });
+        }
+
+        $(function () {
+            $.ajax({
+                url: "getText",
+                dataType: 'JSON',
+                success: function (result) {
+                    $('#text').val(result);
+                }
+            });
+            var path = document.location.pathname;
+            var index = path.substr(1).indexOf("/");
+            var result = path.substr(0, (index + 1));
+            console.log(result);
+        })
+
+
+        $(function(){
+            var hgS3=new selectSwiper({el:'.select_box3',mustSelect:true,activeIndex:5,data:['星期一','星期二','星期三','星期四','星期五','星期六','星期日']
+                ,init:function(index){if(index!==-1){$('.btn3').val(this.data[index]);}},
+                okFunUndefind:function(){alert('必须选择一项');return false;},
+                okFun:function(index){$('.btn3').val(this.data[index]);},
+                closeFun:function(){console.log('取消');},});
+            $('.btn3').on('click',function(){hgS3.openSelectSwiper();});});
+    </script>
+</head>
+<body>
+<br>
+<textarea rows="40" cols="190" id="text">
+		默认text
+	</textarea>
+<br>
+<input type="submit" value="确定" name="submit" onclick="saveMsg();"/>
+<div>
+    <h3>请点击以下内容</h3>
+    <input type="text" class="btn3" placeholder="请选择">
+    <div class="select_box select_box1"></div>
+    <div class="select_box select_box2"></div>
+    <div class="select_box select_box3"></div>
+
+</div>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+    <p>适用浏览器：360、FireFox、Chrome、Opera、傲游、搜狗、世界之窗. 不支持Safari、IE8及以下浏览器。</p>
+    <p>来源：<a href="http://www.lanrenzhijia.com/" target="_blank">懒人</a></p>
+</div>
+</body>
+</html>
